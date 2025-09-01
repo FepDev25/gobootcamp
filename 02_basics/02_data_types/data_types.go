@@ -1,6 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+	"strconv"
+	"strings"
+)
 
 // Tipos de datos
 func main() {
@@ -137,26 +142,90 @@ func compuestos() {
 	}
 
 	fmt.Println("Multiplicar 3 * 4 =", multiplicar(3, 4))
-
-	// ********** Canales **********
 }
 
 func imprimirNumeros(numeros []int) {
-		for _, n := range numeros {
-			fmt.Println("Numero:", n)
-		}
+	for _, n := range numeros {
+		fmt.Println("Numero:", n)
+	}
 }
 
 func especiales() {
 	// -------------------- Tipos Especiales --------------------
 
 	// ********** JSON **********
+	type Usuario struct {
+		Nombre string
+		Edad   int
+	}
+
+	usuario := Usuario{Nombre: "Felipe", Edad: 20}
+	jsonData, err := json.Marshal(usuario)
+
+	if err != nil {
+		fmt.Println("Error al convertir a JSON:", err)
+		return
+	}
+
+	fmt.Println("JSON:", string(jsonData))
 
 	// ********** Texto **********
 
-	// ********** Zero Values **********
+	// Manipulacion de texto
+	texto := strings.ToUpper("rick and morty")
+	partes := strings.Split(texto, " AND ")
 
-	// ********** Conversión de tipos **********
+	fmt.Println("Texto en mayúsculas:", texto)
+	fmt.Println("Partes:", partes)
+
+	// Conversion de tipos
+	numero, err := strconv.Atoi("12345")              // string a int
+	texto_num := strconv.Itoa(67890)                  // int a string
+	decimal, err := strconv.ParseFloat("3.14159", 64) // string a float64
+
+	if err != nil {
+		fmt.Println("Error al convertir:", err)
+		return
+	}
+
+	fmt.Println("Numero:", numero)
+	fmt.Println("Texto:", texto_num)
+	fmt.Println("Decimal:", decimal)
+
+	// ********** Zero Values **********
+	var entero int
+	var flotante float64
+	var booleano bool
+	var cadena string
+	var arreglo [5]int
+	var slice []int
+	var mapa map[string]int
+	var estructura Usuario
+	var puntero *int
+
+	fmt.Println("Entero:", entero)
+	fmt.Println("Flotante:", flotante)
+	fmt.Println("Booleano:", booleano)
+	fmt.Println("Cadena:", cadena)
+	fmt.Println("Arreglo:", arreglo)
+	fmt.Println("Slice:", slice)
+	fmt.Println("Mapa:", mapa)
+	fmt.Println("Estructura:", estructura)
+	fmt.Println("Puntero:", puntero)
 
 	// ********** Verificación de Tipos en Runtime **********
+	var interfaz any = "Hola"
+
+	if texto, ok := interfaz.(string); ok {
+		fmt.Println("Es un string:", texto)
+	}
+
+	switch v := interfaz.(type) {
+	case string:
+		fmt.Println("String:", v)
+	case int:
+		fmt.Println("Integer:", v)
+	default:
+		fmt.Println("Tipo desconocido")
+	}
 }
