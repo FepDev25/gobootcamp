@@ -16,6 +16,7 @@ panic(v interface{})
 ## ¿Cuándo ocurre un Panic?
 
 ### Panic Explícito
+
 Cuando el programador llama directamente a `panic()`:
 
 ```go
@@ -28,27 +29,32 @@ func divide(a, b int) int {
 ```
 
 ### Panic Implícito
+
 Go puede generar panic automáticamente en situaciones como:
 
 - **Acceso fuera de límites en arrays/slices:**
+
 ```go
 arr := [3]int{1, 2, 3}
 fmt.Println(arr[5]) // panic: runtime error: index out of range
 ```
 
 - **Desreferencia de puntero nil:**
+
 ```go
 var p *int
 fmt.Println(*p) // panic: runtime error: invalid memory address
 ```
 
 - **Conversión de tipo inválida:**
+
 ```go
 var i interface{} = "hello"
 num := i.(int) // panic: interface conversion
 ```
 
 - **Operaciones en canales cerrados:**
+
 ```go
 ch := make(chan int)
 close(ch)
@@ -100,7 +106,8 @@ func levelThree() {
 ```
 
 **Salida:**
-```
+
+```bash
 Inicio del programa
 En levelOne
 En levelTwo
@@ -124,6 +131,7 @@ main.main()
 ## Casos de Uso Apropiados
 
 ### 1. Errores de Programación
+
 Usar panic para errores que indican bugs en el código:
 
 ```go
@@ -137,6 +145,7 @@ func getElement(slice []int, index int) int {
 ```
 
 ### 2. Configuración Inválida al Inicio
+
 Para errores críticos durante la inicialización:
 
 ```go
@@ -149,6 +158,7 @@ func init() {
 ```
 
 ### 3. Precondiciones Críticas
+
 Cuando las precondiciones son absolutamente necesarias:
 
 ```go
@@ -179,6 +189,7 @@ func processPayment(amount float64) {
 ### Ejemplo de Uso Incorrecto vs Correcto
 
 **❌ Incorrecto:**
+
 ```go
 func openFile(filename string) *os.File {
     file, err := os.Open(filename)
@@ -190,6 +201,7 @@ func openFile(filename string) *os.File {
 ```
 
 **✅ Correcto:**
+
 ```go
 func openFile(filename string) (*os.File, error) {
     file, err := os.Open(filename)

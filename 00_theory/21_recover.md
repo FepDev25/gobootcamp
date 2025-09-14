@@ -37,7 +37,8 @@ func main() {
 ```
 
 **Salida:**
-```
+
+```bash
 Antes del panic
 Recuperado de panic: ¡Algo salió mal!
 ```
@@ -239,6 +240,7 @@ func level2() {
 ### Ejemplo de Uso Incorrecto vs Correcto
 
 **❌ Incorrecto:**
+
 ```go
 func divide(a, b int) int {
     defer func() {
@@ -250,6 +252,7 @@ func divide(a, b int) int {
 ```
 
 **✅ Correcto:**
+
 ```go
 func divide(a, b int) (int, error) {
     if b == 0 {
