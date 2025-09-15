@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+	"unicode"
+)
 
 /*
 EJERCICIOS NIVEL PRINCIPIANTE
@@ -21,16 +25,16 @@ func main() {
 	fmt.Println("=== EJERCICIOS NIVEL PRINCIPIANTE ===")
 
 	// Descomenta las líneas siguientes cuando hayas implementado las funciones
-	// testExercise1()
-	// testExercise2()
-	// testExercise3()
-	// testExercise4()
-	// testExercise5()
-	// testExercise6()
-	// testExercise7()
-	// testExercise8()
-	// testExercise9()
-	// testExercise10()
+	testExercise1()
+	testExercise2()
+	testExercise3()
+	testExercise4()
+	testExercise5()
+	testExercise6()
+	testExercise7()
+	testExercise8()
+	testExercise9()
+	testExercise10()
 
 	fmt.Println("¡Todos los ejercicios completados!")
 }
@@ -55,7 +59,15 @@ Es estudiante: true
 */
 func ejercicio1() {
 	// TODO: Implementa aquí tu solución
+	nombre := "Felipe"
+	edad := 20
+	var altura float64 = 1.75
+	var esEstudiante bool = true
 
+	fmt.Printf("Nombre: %s\n", nombre)
+	fmt.Printf("Edad: %d años\n", edad)
+	fmt.Printf("Altura: %.2f metros\n", altura)
+	fmt.Printf("Es estudiante: %t\n", esEstudiante)
 }
 
 /*
@@ -80,6 +92,14 @@ Distancia en caída libre tras 2.00 segundos: 19.62 metros
 */
 func ejercicio2(radio float64, tiempo float64) {
 	// TODO: Implementa aquí tu solución
+	const PI float64 = 3.14159
+	const GRAVEDAD float64 = 9.81
+
+	area := PI * radio * radio
+	distancia := 0.5 * GRAVEDAD * tiempo * tiempo
+
+	fmt.Printf("Área del círculo con radio %.2f: %.2f\n", radio, area)
+	fmt.Printf("Distancia en caída libre tras %.2f segundos: %.2f metros\n", tiempo, distancia)
 
 }
 
@@ -107,6 +127,33 @@ Nivel: Bueno
 */
 func ejercicio3(calificacion int) {
 	// TODO: Implementa aquí tu solución
+	if calificacion < 0 || calificacion > 100 {
+		fmt.Println("Calificación inválida. Debe estar entre 0 y 100.")
+		return
+	}
+
+	var letra, nivel string
+
+	if calificacion >= 90 {
+		letra = "A"
+		nivel = "Excelente"
+	} else if calificacion >= 80 {
+		letra = "B"
+		nivel = "Bueno"
+	} else if calificacion >= 70 {
+		letra = "C"
+		nivel = "Regular"
+	} else if calificacion >= 60 {
+		letra = "D"
+		nivel = "Suficiente"
+	} else {
+		letra = "F"
+		nivel = "Insuficiente"
+	}
+
+	fmt.Printf("Calificación: %d\n", calificacion)
+	fmt.Printf("Letra: %s\n", letra)
+	fmt.Printf("Nivel: %s\n", nivel)
 
 }
 
@@ -138,6 +185,34 @@ Número menor: 1
 */
 func ejercicio4(numeros []int) {
 	// TODO: Implementa aquí tu solución
+	var suma, pares, impares int
+	var mayor, menor = numeros[0], numeros[0]
+	cantidad := len(numeros)
+
+	for _, num := range numeros {
+		suma += num
+		if num%2 == 0 {
+			pares++
+		} else {
+			impares++
+		}
+
+		if num > mayor || mayor == 0 {
+			mayor = num
+		}
+		if num < menor || menor == 0 {
+			menor = num
+		}
+	}
+
+	promedio := float64(suma) / float64(cantidad)
+	fmt.Printf("Números analizados: %v\n", numeros)
+	fmt.Printf("Suma total: %d\n", suma)
+	fmt.Printf("Promedio: %.2f\n", promedio)
+	fmt.Printf("Números pares: %d\n", pares)
+	fmt.Printf("Números impares: %d\n", impares)
+	fmt.Printf("Número mayor: %d\n", mayor)
+	fmt.Printf("Número menor: %d\n", menor)
 
 }
 
@@ -164,6 +239,46 @@ Texto capitalizado: "Hola Mundo"
 func ejercicio5(texto string) {
 	// TODO: Implementa aquí tu solución
 	// Pista: Puedes usar strings.ToLower(), strings.ToUpper(), strings.Fields()
+	vocales := "aeiouAEIOU"
+	var cuentaVocales, cuentaConsonantes int
+	textoLimpio := strings.ReplaceAll(texto, " ", "")
+	textoLimpio = strings.ReplaceAll(textoLimpio, ",", "")
+	textoLimpio = strings.ReplaceAll(textoLimpio, ".", "")
+	textoLimpio = strings.ReplaceAll(textoLimpio, "!", "")
+	textoLimpio = strings.ReplaceAll(textoLimpio, "?", "")
+
+	for _, char := range textoLimpio {
+		if strings.ContainsRune(vocales, char) {
+			cuentaVocales++
+		} else if (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') {
+			cuentaConsonantes++
+		}
+	}
+
+	// Verificar si es palíndromo
+	esPalindromo := true
+	longitud := len(textoLimpio)
+	for i := 0; i < longitud/2; i++ {
+		if textoLimpio[i] != textoLimpio[longitud-1-i] {
+			esPalindromo = false
+			break
+		}
+	}
+
+	// Capitalizar la primera letra de cada palabra
+	palabras := strings.Fields(texto)
+	for i, palabra := range palabras {
+		if len(palabra) > 0 {
+			palabras[i] = strings.ToUpper(string(palabra[0])) + palabra[1:]
+		}
+	}
+	textoCapitalizado := strings.Join(palabras, " ")
+
+	fmt.Printf("Texto original: \"%s\"\n", texto)
+	fmt.Printf("Vocales: %d\n", cuentaVocales)
+	fmt.Printf("Consonantes: %d\n", cuentaConsonantes)
+	fmt.Printf("Es palíndromo: %t\n", esPalindromo)
+	fmt.Printf("Texto capitalizado: \"%s\"\n", textoCapitalizado)
 
 }
 
@@ -205,6 +320,60 @@ Rombo:
 */
 func ejercicio6(n int) {
 	// TODO: Implementa aquí tu solución
+	fmt.Println("Triangulo: ")
+	for num := range n + 1 {
+		if num == 0 {
+			continue
+		}
+		for range num {
+			fmt.Print("*")
+		}
+		fmt.Println()
+	}
+
+	fmt.Println("Triangulo invertido: ")
+	for num := range n {
+		for range n - num {
+			fmt.Print("*")
+		}
+		fmt.Println()
+	}
+
+	fmt.Println("Rombo")
+	for num := range n + 1 {
+		if num == 0 {
+			continue
+		}
+
+		espacios := n - num
+		for range espacios {
+			fmt.Print(" ")
+		}
+
+		for range num {
+			fmt.Print("*")
+		}
+
+		fmt.Println()
+
+	}
+
+	for num := range n + 1 {
+		if num == 0 {
+			continue
+		}
+
+		for range num {
+			fmt.Print(" ")
+		}
+
+		asteriscos := n - num
+		for range asteriscos {
+			fmt.Print("*")
+		}
+
+		fmt.Println()
+	}
 
 }
 
@@ -230,7 +399,42 @@ Ejemplo de salida para valor=25, origen="C", destino="F":
 */
 func ejercicio7(valor float64, origen, destino string) {
 	// TODO: Implementa aquí tu solución
+	if (origen != "C" && origen != "F" && origen != "K") || (destino != "C" && destino != "F" && destino != "K") {
+		fmt.Println("Unidad de origen o destino inválida. Usa 'C', 'F' o 'K'.")
+		return
+	}
 
+	if origen == destino {
+		fmt.Println("No se puede realizar la conversión si el origen y destino son iguales")
+		return
+	}
+
+	var conversion float64
+
+	switch origen {
+	case "C":
+		if destino == "F" {
+			conversion = (valor * 9 / 5) + 32
+		} else {
+			conversion = valor + 273.15
+		}
+
+	case "F":
+		if destino == "C" {
+			conversion = (valor - 32) * 5 / 9
+		} else {
+			conversion = (valor-32)*5/9 + 273.15
+		}
+
+	case "K":
+		if destino == "C" {
+			conversion = valor - 273.15
+		} else {
+			conversion = (valor-273.15)*9/5 + 32
+		}
+	}
+
+	fmt.Printf("%.2f%s = %.2f%s\n", valor, origen, conversion, destino)
 }
 
 /*
@@ -263,8 +467,73 @@ Validación de usuario: Juan123
 Resultado: TODAS LAS VALIDACIONES EXITOSAS
 */
 func ejercicio8(usuario, password string, edad int) {
+	correcto := true
 	// TODO: Implementa aquí tu solución
+	fmt.Println("Iniciando validación de datos: ")
 
+	if len(usuario) >= 3 && len(usuario) <= 20 {
+		fmt.Printf("✓ Longitud de usuario válida (%d caracteres)\n", len(usuario))
+	} else {
+		fmt.Printf("Longitud de usuario inválida (%d caracteres)\n", len(usuario))
+		correcto = false
+	}
+
+	if len(password) >= 8 {
+		fmt.Printf("✓ Longitud de contraseña válida (%d caracteres)\n", len(password))
+	} else {
+		fmt.Printf("Longitud de contraseña inválida (%d caracteres)\n", len(password))
+		correcto = false
+	}
+
+	mayus, minus, num := false, false, false
+
+	for _, r := range password {
+		if unicode.IsUpper(r) {
+			mayus = true
+		}
+		if unicode.IsLower(r) {
+			minus = true
+		}
+		if unicode.IsNumber(r) {
+			num = true
+		}
+		if mayus && minus && num {
+			break
+		}
+	}
+	if !mayus {
+		fmt.Println("Contraseña no contiene mayúscula")
+		correcto = false
+	} else {
+		fmt.Println("✓ Contraseña contiene mayúscula")
+	}
+
+	if !minus {
+		fmt.Println("Contraseña no contiene minúscula")
+		correcto = false
+	} else {
+		fmt.Println("✓ Contraseña contiene minúscula")
+	}
+
+	if !num {
+		fmt.Println("Contraseña no contiene número")
+		correcto = false
+	} else {
+		fmt.Println("✓ Contraseña contiene número")
+	}
+
+	if edad >= 13 && edad <= 120 {
+		fmt.Printf("✓ Edad válida (%d años)\n", edad)
+	} else {
+		fmt.Printf("Edad inválida (%d años)\n", edad)
+		correcto = false
+	}
+
+	if correcto {
+		fmt.Println("Resultado: TODAS LAS VALIDACIONES EXITOSAS")
+	} else {
+		fmt.Println("Resultado: ALGUNAS VALIDACIONES SON INCORRECTAS")
+	}
 }
 
 /*
@@ -291,7 +560,30 @@ Ejemplo de salida para a=10, b=3, operador="/":
 */
 func ejercicio9(a, b float64, operador string) {
 	// TODO: Implementa aquí tu solución
-
+	switch operador {
+	case "+":
+		fmt.Printf("%.2f + %.2f = %.2f\n", a, b, a+b)
+	case "-":
+		fmt.Printf("%.2f - %.2f = %.2f\n", a, b, a-b)
+	case "*":
+		fmt.Printf("%.2f * %.2f = %.2f\n", a, b, a*b)
+	case "/":
+		if b == 0 {
+			fmt.Println("No se puede dividir para 0!")
+			return
+		}
+		fmt.Printf("%.2f / %.2f = %.2f\n", a, b, a/b)
+	case "%":
+		fmt.Printf("%d %s %d = %d\n", int(a), "%", int(b), int(a)%int(b))
+	case "^":
+		result := a
+		for range int(b) - 1 {
+			result = result * a
+		}
+		fmt.Printf("%.2f ^ %.2f = %.2f\n", a, b, result)
+	default:
+		fmt.Println("Operacion no reconocida.")
+	}
 }
 
 /*
@@ -317,7 +609,84 @@ Factorial de 12: 479001600
 */
 func ejercicio10(n int) {
 	// TODO: Implementa aquí tu solución
+	fmt.Printf("Análisis del número %d:\n", n)
 
+	var divisores []int = obtenerDivisores(n)
+	var sumaDivisores = obtenerSumaDivisores(divisores, n)
+
+	fmt.Printf("¿Es primo? %t \n", len(divisores) == 2)
+	fmt.Printf("¿Es perfecto? %t \n", sumaDivisores == n)
+	fmt.Printf("Números primos menores que %d: %d \n", n, obtenerPrimosMenores(n))
+	fmt.Printf("Números perfectos menores que %d: %d \n", n, obtenerPerfectosMenores(n))
+	fmt.Printf("Factorial de %d: %d\n", n, factorial(n))
+}
+
+func obtenerDivisores(n int) []int {
+	var divisores []int
+	for i := range n + 1 {
+		if i == 0 {
+			continue
+		}
+		if n%i == 0 {
+			divisores = append(divisores, i)
+		}
+	}
+	return divisores
+}
+
+func obtenerSumaDivisores(divisores []int, n int) int {
+	var sumaDivisores = 0
+	for _, v := range divisores {
+		if sumaDivisores > n {
+			break
+		}
+		if v == n {
+			continue
+		}
+		sumaDivisores += v
+	}
+	return sumaDivisores
+}
+
+func obtenerPrimosMenores(n int) []int {
+	var primos []int
+	for i := range n {
+		if i == 0 || i == 1 {
+			continue
+		}
+		divisores := obtenerDivisores(i)
+		if len(divisores) == 2 {
+			primos = append(primos, i)
+		}
+	}
+	return primos
+}
+
+func obtenerPerfectosMenores(n int) []int {
+	var perfectos []int
+	for i := range n {
+		if i == 0 || i == 1 {
+			continue
+		}
+		sumaDividores := obtenerSumaDivisores(obtenerDivisores(i), i)
+		if sumaDividores == i {
+			perfectos = append(perfectos, i)
+		}
+	}
+	return perfectos
+}
+
+func factorial(n int) int {
+	if n < 0 {
+		fmt.Println("Error: factorial de numero negativo.")
+		return 0
+	}
+
+	factorial := 1
+	for i := 2; i <= n; i++ {
+		factorial *= i
+	}
+	return factorial
 }
 
 // Funciones de prueba - NO MODIFICAR
@@ -372,12 +741,18 @@ func testExercise8() {
 func testExercise9() {
 	fmt.Println("\n--- EJERCICIO 9 ---")
 	ejercicio9(10, 3, "/")
+	ejercicio9(10, 0, "/")
 	ejercicio9(5, 4, "+")
-	ejercicio9(2, 8, "^")
+	ejercicio9(2, 8, "*")
+	ejercicio9(21, 18, "-")
+	ejercicio9(300, 30, "%")
+	ejercicio9(5, 4, "^")
+	ejercicio9(2, 8, "m")
 }
 
 func testExercise10() {
 	fmt.Println("\n--- EJERCICIO 10 ---")
 	ejercicio10(12)
 	ejercicio10(7)
+	ejercicio10(6)
 }
