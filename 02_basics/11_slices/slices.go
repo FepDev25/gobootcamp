@@ -19,10 +19,10 @@ func delclaraInicializarSlices() {
 	numbers3 := []int{1, 2, 3}   // Declarar y inicializar un slice
 	numbers4 := make([]int, 10)  // Crear un slice con longitud 10
 
-	fmt.Println((numbers))
-	fmt.Println((numers2))
-	fmt.Println((numbers3))
-	fmt.Println((numbers4))
+	fmt.Println(numbers)
+	fmt.Println(numers2)
+	fmt.Println(numbers3)
+	fmt.Println(numbers4)
 
 	array := [4]int{10, 20, 30, 40}
 	slice := array[1:3] // Crear un slice a partir de un array
