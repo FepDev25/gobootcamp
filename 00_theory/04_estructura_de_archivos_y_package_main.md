@@ -4,7 +4,7 @@
 
 Si estás viendo un error como:
 
-```
+```bash
 main redeclared in this block
 ```
 
@@ -28,6 +28,7 @@ Esto se hace intencionalmente para mantener la experiencia de aprendizaje limpia
 Digamos que tienes dos archivos en la misma carpeta:
 
 **random.go**
+
 ```go
 package main
 
@@ -37,6 +38,7 @@ func main() {
 ```
 
 **variables.go**
+
 ```go
 package main
 
@@ -62,7 +64,7 @@ En Go, si estás escribiendo un programa ejecutable, debe:
 
 Si tratas de ejecutar un archivo sin `package main` o sin una función `main()`, obtendrás un error como:
 
-```
+```bash
 go run: cannot run non-main package
 ```
 
@@ -98,7 +100,7 @@ Puedes renombrar temporalmente otros archivos .go a .txt o comentar funciones `m
 
 Estructura tu código así:
 
-```
+```bash
 /Go_course/
   /random/
     random.go   --> package main (tiene su propio main())
@@ -143,13 +145,15 @@ Cuando me veas renombrando archivos o cambiando `package main` a `package basics
 
 ## Reglas Importantes para Recordar
 
-### Permitido:
+### Permitido
+
 - Un `main()` en un paquete
 - Archivos en diferentes carpetas, cada uno con `package main`
 - `go run file.go` con `package main`
 - Archivar archivos .go antiguos cambiando el paquete o la extensión
 
-### No Permitido:
+### No Permitido
+
 - Múltiples funciones `main()` en el mismo paquete
 - Dos archivos main() en la misma carpeta
 - `go run` en un archivo con un nombre de paquete diferente

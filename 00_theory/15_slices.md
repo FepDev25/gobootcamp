@@ -5,11 +5,12 @@ Los slices son una abstracción más poderosa y flexible que los arrays en Go. R
 ## ¿Qué es un Slice?
 
 Un slice es una estructura que contiene:
+
 - **Puntero**: Referencia al array subyacente
 - **Longitud**: Número de elementos en el slice
 - **Capacidad**: Número total de elementos desde el inicio del slice hasta el final del array subyacente
 
-```
+```bash
 slice := []int{1, 2, 3, 4, 5}
        ┌─────────────────────┐
        │ ptr │ len │ cap     │
@@ -79,6 +80,7 @@ slice[:]              // Todo el slice (copia)
 ```
 
 **Ejemplos:**
+
 ```go
 numbers := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 
