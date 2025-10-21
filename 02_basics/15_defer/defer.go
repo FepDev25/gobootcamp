@@ -36,7 +36,7 @@ func process() {
 }
 
 func processWithMultipleDefers() {
-	defer fmt.Println("First defer")
+	defer fmt.Println("First defer") // Se ejecuta al final|
 	defer fmt.Println("Second defer")
 	defer fmt.Println("Third defer")
 
