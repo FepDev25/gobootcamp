@@ -38,6 +38,7 @@ type Service interface {
 	// Sales
 	CreateSale(ctx context.Context, req *models.CreateSaleRequest) (*models.Sale, error)
 	GetSale(ctx context.Context, id int) (*models.Sale, error)
+	GetSalesReport(ctx context.Context) ([]models.SalesReportItem, error)
 }
 
 type service struct {

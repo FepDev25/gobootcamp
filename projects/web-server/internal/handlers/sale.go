@@ -40,6 +40,17 @@ func (h *SaleHandler) CreateSale(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(sale)
 }
 
+func (h *SaleHandler) GetSalesReport(w http.ResponseWriter, r *http.Request) {
+	report, err := h.db.GetSalesReport(r.Context())
+	if err != nil {
+		http.Error(w, fmt.Sprintf("failed to get sales report: %v", err), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(report)
+}
+
 func (h *SaleHandler) GetSale(w http.ResponseWriter, r *http.Request) {
 	idStr := r.PathValue("id")
 	id, err := strconv.Atoi(idStr)

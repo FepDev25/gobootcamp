@@ -30,6 +30,11 @@ type CreateSaleRequest struct {
 	Items         []CreateSaleItemRequest `json:"items"`
 }
 
+type SalesReportItem struct {
+	Date       string          `json:"date"`
+	TotalSales decimal.Decimal `json:"total_sales"`
+}
+
 type CreateSaleItemRequest struct {
 	ProductID int `json:"product_id"`
 	Quantity  int `json:"quantity"`

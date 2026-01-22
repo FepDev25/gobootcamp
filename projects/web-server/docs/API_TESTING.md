@@ -194,3 +194,11 @@ Muestra la cabecera de la venta y el detalle de los items.
 ```bash
 curl -i http://localhost:8080/sales/1
 ```
+
+### Obtener Reporte de Ventas
+
+Muestra la suma total de ventas agrupadas por día.
+
+```bash
+curl -i http://localhost:8080/sales/report
+```

@@ -157,3 +157,35 @@ func (s *service) GetSale(ctx context.Context, id int) (*models.Sale, error) {
 
 	return &sale, nil
 }
+
+func (s *service) GetSalesReport(ctx context.Context) ([]models.SalesReportItem, error) {
+	query := `
+		SELECT 
+			TO_CHAR(sale_date, 'YYYY-MM-DD') as date, 
+			SUM(total_amount) as total_sales
+		FROM sales
+		GROUP BY date
+		ORDER BY date DESC
+	`
+
+	rows, err := s.db.Query(ctx, query)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get sales report: %w", err)
+	}
+	defer rows.Close()
+
+	var report []models.SalesReportItem
+	for rows.Next() {
+		var item models.SalesReportItem
+		if err := rows.Scan(&item.Date, &item.TotalSales); err != nil {
+			return nil, fmt.Errorf("failed to scan sales report item: %w", err)
+		}
+		report = append(report, item)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("error iterating sales report rows: %w", err)
+	}
+
+	return report, nil
+}

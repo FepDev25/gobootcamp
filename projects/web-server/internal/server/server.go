@@ -63,6 +63,7 @@ func (s *Server) RegisterRoutes() http.Handler {
 	// Sales
 	saleHandler := handlers.NewSaleHandler(s.db)
 	mux.HandleFunc("POST /sales", saleHandler.CreateSale)
+	mux.HandleFunc("GET /sales/report", saleHandler.GetSalesReport)
 	mux.HandleFunc("GET /sales/{id}", saleHandler.GetSale)
 
 	return mux
