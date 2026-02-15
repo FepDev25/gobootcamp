@@ -3,9 +3,12 @@ package server
 import (
 	"fmt"
 	"net/http"
+	"os"
+	"strings"
 	"time"
 	"web-server/internal/database"
 	"web-server/internal/handlers"
+	"web-server/internal/middleware"
 )
 
 type Server struct {
@@ -19,10 +22,21 @@ func NewServer(port int, db database.Service) *http.Server {
 		db:   db,
 	}
 
+	// Chain middlewares
+	handler := s.registerRoutes()
+	handler = middleware.Logger(handler)
+	handler = middleware.Recovery(handler)
+	handler = middleware.RequestID(handler)
+	handler = middleware.Timeout(30 * time.Second)(handler)
+
+	// CORS from env
+	corsOrigins := getCORSOrigins()
+	handler = middleware.CORS(corsOrigins)(handler)
+
 	// Declare Server config
 	server := &http.Server{
 		Addr:         fmt.Sprintf(":%d", s.port),
-		Handler:      s.RegisterRoutes(),
+		Handler:      handler,
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 30 * time.Second,
@@ -31,7 +45,7 @@ func NewServer(port int, db database.Service) *http.Server {
 	return server
 }
 
-func (s *Server) RegisterRoutes() http.Handler {
+func (s *Server) registerRoutes() http.Handler {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/health", handlers.HealthCheck(s.db))
@@ -67,4 +81,13 @@ func (s *Server) RegisterRoutes() http.Handler {
 	mux.HandleFunc("GET /sales/{id}", saleHandler.GetSale)
 
 	return mux
+}
+
+func getCORSOrigins() []string {
+	origins := os.Getenv("CORS_ORIGINS")
+	if origins == "" {
+		// Default: allow all in development
+		return []string{"*"}
+	}
+	return strings.Split(origins, ",")
 }
